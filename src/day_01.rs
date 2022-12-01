@@ -1,8 +1,11 @@
-use itertools::{izip, Itertools};
+use itertools::{Itertools};
 use crate::formater::*;
 use crate::parser::*;
+use rayon::prelude::*;
 
-type Data = Vec<Vec<i64>>;
+
+type Int = u64;
+type Data = Vec<Vec<Int>>;
 
 pub fn run()-> Result<(), std::io::Error>{
     print_single_parse(1,
@@ -10,46 +13,35 @@ pub fn run()-> Result<(), std::io::Error>{
         sum_per_elf,
         top_three_elves)
 }
+/* 
+pub fn versions() -> Result<(), std::io::Error>{
+    print_single_parse(1,
+        parse_input_rayon,
+        sum_per_elf_rayon,
+        top_three_elves_rayon)
+}
+*/
+
+
 
 fn parse_input(input:&str) -> Data{
-    separated_by_blank(input).map(|elf|{
-        one_int_per_line(elf)
-    }).collect()
+    input.split("\n\n").map(
+        |elf|{
+            elf.trim().split("\n").map(str::parse).filter_map(Result::ok).collect()
+        }
+    ).collect()
 }
 
-fn sum_per_elf(data: &Vec<Vec<i64>>)->i64{
+fn sum_per_elf(data: &Data)->Int{
     data.iter().map(|elf|{elf.iter().sum()}).max().unwrap_or(0)
 }
 
-fn top_three_elves(data: &Vec<Vec<i64>>)->i64{
-    let mut elves : Vec<i64> = data.iter().map(|elf|{elf.iter().sum()}).collect_vec();
+fn top_three_elves(data: &Data)->Int{
+    let mut elves : Vec<Int> = data.iter().map(|elf|{elf.iter().sum()}).collect();
     elves.sort();
     
     let end = elves.len();
     elves[end-1] + elves[end-2] + elves[end-3]
-}
-
-
-
-fn count_increases(data:&Vec<i64>)->i64{
-    let mut iter1 = data.iter();
-    iter1.next();
-    iter1.zip(data.iter()).filter(|(a,b)| {a>b}).count() as i64
-}
-
-fn rolling_sum(data:&Vec<i64>)->Vec<i64>{
-    let iter0 = data.iter();
-    let mut iter1 = data.iter();
-    let mut iter2 = data.iter();
-    iter1.next();
-    iter2.next();
-    iter2.next();
-
-    izip!(iter0,iter1,iter2).map(|(a,b,c)|{a+b+c}).collect_vec()
-}
-
-fn part2(data:&Vec<Vec<i64>>)->i64{
-    0
 }
 
 #[cfg(test)]
@@ -77,7 +69,12 @@ mod tests {
 
     #[test]
     fn test_example() {
-        let EXEMPLE = vec![vec![1000,2000,3000],vec![4000],vec![5000,6000],vec![7000,8000,9000],vec![10000]];
+        let EXEMPLE = vec![
+            vec![1000,2000,3000],
+            vec![4000],
+            vec![5000,6000],
+            vec![7000,8000,9000],
+            vec![10000]];
 
         assert_eq!(parse_input(EXEMPLE_1),EXEMPLE);
         assert_eq!(sum_per_elf(&EXEMPLE), 24000);

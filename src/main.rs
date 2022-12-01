@@ -1,4 +1,6 @@
+#[allow(dead_code)]
 mod formater;
+#[allow(dead_code)]
 mod parser;
 
 mod day_01;
