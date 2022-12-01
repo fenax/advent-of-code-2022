@@ -1,6 +1,4 @@
-use itertools::{Itertools};
 use crate::formater::*;
-use crate::parser::*;
 use rayon::prelude::*;
 
 
@@ -46,7 +44,6 @@ fn top_three_elves(data: &Data)->Int{
 
 #[cfg(test)]
 mod tests {
-    use crate::parser::one_int_per_line;
     use crate::formater::read_file;
     use crate::day_01::{sum_per_elf,parse_input, top_three_elves};
 
