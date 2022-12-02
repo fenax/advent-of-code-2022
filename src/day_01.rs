@@ -1,5 +1,4 @@
 use crate::formater::*;
-use rayon::prelude::*;
 
 
 type Int = u64;
@@ -11,16 +10,6 @@ pub fn run()-> Result<(), std::io::Error>{
         sum_per_elf,
         top_three_elves)
 }
-/* 
-pub fn versions() -> Result<(), std::io::Error>{
-    print_single_parse(1,
-        parse_input_rayon,
-        sum_per_elf_rayon,
-        top_three_elves_rayon)
-}
-*/
-
-
 
 fn parse_input(input:&str) -> Data{
     input.split("\n\n").map(
@@ -66,16 +55,16 @@ mod tests {
 
     #[test]
     fn test_example() {
-        let EXEMPLE = vec![
+        let exemple = vec![
             vec![1000,2000,3000],
             vec![4000],
             vec![5000,6000],
             vec![7000,8000,9000],
             vec![10000]];
 
-        assert_eq!(parse_input(EXEMPLE_1),EXEMPLE);
-        assert_eq!(sum_per_elf(&EXEMPLE), 24000);
-        assert_eq!(top_three_elves(&EXEMPLE),45000)
+        assert_eq!(parse_input(EXEMPLE_1),exemple);
+        assert_eq!(sum_per_elf(&exemple), 24000);
+        assert_eq!(top_three_elves(&exemple),45000)
     }
     #[test]
     fn test(){
