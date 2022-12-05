@@ -1,5 +1,3 @@
-use itertools::Itertools;
-
 use crate::formater::*;
 
 pub const FILE:usize = 4;
