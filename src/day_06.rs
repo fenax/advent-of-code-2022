@@ -28,7 +28,8 @@ fn part_1(data: &Data)->Int{
 fn part_2(data: &Data)->Int{
     data.iter().map(to_mask).collect_vec().windows(14).map(|v|{
         v.iter().fold(0,BitOr::bitor)
-    }).take_while(|v|v.count_ones() < 14).count() +14}
+    }).take_while(|v|v.count_ones() < 14).count() +14
+}
 
 fn to_mask(data:&u8)->u32{
     1<<(data-b'a')
