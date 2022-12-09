@@ -9,7 +9,6 @@ pub fn run() -> Result<(), std::io::Error> {
 }
 
 fn parse_input(input: &str) -> Data {
-    let mut out = Vec::new();
     let v: Vec<&str> = input.split("\n\n").collect();
     let mut stacks: Vec<&str> = v[0].lines().collect();
     let columns: Vec<_> = stacks
@@ -19,10 +18,8 @@ fn parse_input(input: &str) -> Data {
         .enumerate()
         .filter_map(|(i, c)| if c.is_whitespace() { None } else { Some(i) })
         .collect();
-    out.reserve_exact(stacks.len());
-    for _ in columns.iter() {
-        out.push(Vec::new());
-    }
+    let mut out = vec![Vec::new(); columns.len()];
+
     stacks.reverse();
     for l in stacks {
         for (i, s) in columns.iter().enumerate() {
