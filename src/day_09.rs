@@ -30,15 +30,7 @@ impl Knot{
     fn follows(&mut self,target:&Knot){
         let dx = target.x-self.x;
         let dy = target.y-self.y;
-        if dx == 0{
-            if dy.abs() >1{
-                self.y += dy.signum();
-            }
-        }else if dy == 0{
-            if dx.abs() >1{
-                self.x += dx.signum();
-            }
-        }else if dx.abs().max(dy.abs()) > 1{
+        if dx.abs().max(dy.abs()) > 1{
             self.x += dx.signum();
             self.y += dy.signum();
         }
