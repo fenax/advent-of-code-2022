@@ -28,19 +28,19 @@ impl Knot{
         self.y += y;
     }
     fn follows(&mut self,target:&Knot){
-        if target.x==self.x{
-            let diff = target.y-self.y;
-            if diff.abs() >1{
-                self.y += diff.signum();
+        let dx = target.x-self.x;
+        let dy = target.y-self.y;
+        if dx == 0{
+            if dy.abs() >1{
+                self.y += dy.signum();
             }
-        }else if target.y==self.y{
-            let diff = target.x-self.x;
-            if diff.abs() >1{
-                self.x += diff.signum();
+        }else if dy == 0{
+            if dx.abs() >1{
+                self.x += dx.signum();
             }
-        }else if (target.x-self.x).abs().max((target.y-self.y).abs()) > 1{
-            self.x += (target.x-self.x).signum();
-            self.y += (target.y-self.y).signum();
+        }else if dx.abs().max(dy.abs()) > 1{
+            self.x += dx.signum();
+            self.y += dy.signum();
         }
     }
 }
