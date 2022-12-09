@@ -1,3 +1,5 @@
+#![feature(generators)]
+
 #[allow(dead_code)]
 mod formater;
 #[allow(dead_code)]
@@ -10,6 +12,7 @@ mod day_04;
 mod day_05;
 mod day_06;
 mod day_07;
+mod day_08;
 
 fn main() -> Result<(), std::io::Error>  {
     day_01::run()?;
@@ -19,6 +22,7 @@ fn main() -> Result<(), std::io::Error>  {
     day_05::run()?;
     day_06::run()?;
     day_07::run()?;
+    day_08::run()?;
 
     Ok(())
 }
