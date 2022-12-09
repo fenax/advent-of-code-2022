@@ -13,9 +13,9 @@ struct Map {
     height: usize,
 }
 
-fn indexer(start: usize, step: isize, limit: isize) -> impl Iterator<Item = usize> {
+fn indexer(start: isize, step: isize, limit: isize) -> impl Iterator<Item = usize> {
     gen_iter!(move {
-        let mut current = start as isize;
+        let mut current = start;
         loop {
             if current >= limit || current < 0 {
                 return;
@@ -68,31 +68,34 @@ fn part_1(data: &Data) -> Int {
     }
 
     let mut visible_map = vec![false; data.width * data.height];
-    let line_offset = data.width;
+    let line_offset = data.width as isize;
+    let limit = (data.width * data.height) as isize;
 
-    for line in 0..data.height {
+    for line in 0..(data.height as isize) {
         do_line(
             data,
-            line_offset * line..line_offset * line + data.width,
+            indexer(line_offset * line, 1, limit).take(data.width),
             &mut visible_map,
         );
         do_line(
             data,
-            (line_offset * line..line_offset * line + data.width).rev(),
+            indexer(line_offset * line + data.width as isize - 1, -1, limit).take(data.width),
             &mut visible_map,
         );
     }
-    for column in 0..data.width {
+    for column in 0..(data.width as isize) {
         do_line(
             data,
-            (column..column + (line_offset * data.height)).step_by(line_offset),
+            indexer(column, line_offset, limit).take(data.width),
             &mut visible_map,
         );
         do_line(
             data,
-            (column..column + (line_offset * data.height))
-                .step_by(line_offset)
-                .rev(),
+            indexer(
+                column + (line_offset * (data.height as isize - 1)) - 1,
+                -line_offset,
+                limit,
+            ),
             &mut visible_map,
         );
     }
@@ -129,7 +132,7 @@ fn part_2(data: &Data) -> Int {
 
             let init = data.data[line * data.width + column];
 
-            let cell_index = line_offset * line + column;
+            let cell_index = (line_offset * line + column) as isize;
 
             let right = do_line(init, data, indexer(cell_index, 1, limit).take(cells_right));
             let left = do_line(init, data, indexer(cell_index, -1, limit).take(cells_left));
