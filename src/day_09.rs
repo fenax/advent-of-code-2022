@@ -64,34 +64,9 @@ fn parse_input(input: &str) -> Data {
 }
 
 fn part_1(data: &Data) -> Int {
-    /*let mut x = 0isize;
-    let mut y = 0isize;
-    let mut max_x = 0isize;
-    let mut min_x = 0isize;
-    let mut max_y = 0isize;
-    let mut min_y = 0isize;
-    for step in data{
-        match step {
-            Moves::Up(dist) => y += dist,
-            Moves::Down(dist) => y -= dist,
-            Moves::Left(dist) => x -= dist,
-            Moves::Right(dist) => x+=dist,
-        }
-        max_x = max_x.max(x);
-        min_x = min_x.min(x);
-        max_y = max_y.max(y);
-        min_y = min_y.min(y);
-    }*/
     let mut head = Knot::new();
     let mut tail = Knot::new();
-    /*
-    let mut x = 0isize;
-    let mut y = 0isize;
-    let mut tail_x = 0isize;
-    let mut tail_y = 0isize;
-    */
 
-    //let mut visited:HashSet<(isize,isize)> = HashSet::new();
     let mut visited: HashSet<Knot> = HashSet::new();
 
     for step in data {
@@ -104,27 +79,17 @@ fn part_1(data: &Data) -> Int {
         for _ in 0..*dist {
             head.mov(x_mov, y_mov);
             tail.follows(&head);
-            //x+=x_mov;
-            //y+=y_mov;
+
             visited.insert(tail);
         }
     }
-    //println!("X : {}-{} Y : {}-{}",min_x,max_x,min_y,max_y);
     visited.iter().count()
 }
 
 fn part_2(data: &Data) -> Int {
     let mut head = Knot::new();
-    //let mut tail = Knot::new();
-    /*
-    let mut x = 0isize;
-    let mut y = 0isize;
-    let mut tail_x = 0isize;
-    let mut tail_y = 0isize;
-    */
-
-    //let mut visited:HashSet<(isize,isize)> = HashSet::new();
     let mut rope = vec![Knot::new(); 9];
+
     let mut visited: HashSet<Knot> = HashSet::new();
 
     for step in data {
@@ -141,12 +106,9 @@ fn part_2(data: &Data) -> Int {
                 tail.follows(&last);
                 last = *tail;
             }
-            //x+=x_mov;
-            //y+=y_mov;
             visited.insert(last);
         }
     }
-    //println!("X : {}-{} Y : {}-{}",min_x,max_x,min_y,max_y);
     visited.iter().count()
 }
 
