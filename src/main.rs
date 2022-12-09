@@ -1,7 +1,7 @@
 #![feature(generators)]
 
-use std::time::Instant;
 use colored::Colorize;
+use std::time::Instant;
 
 #[allow(dead_code)]
 mod formater;
@@ -18,7 +18,7 @@ mod day_07;
 mod day_08;
 mod day_09;
 
-fn main() -> Result<(), std::io::Error>  {
+fn main() -> Result<(), std::io::Error> {
     let start = Instant::now();
 
     day_01::run()?;
@@ -32,7 +32,7 @@ fn main() -> Result<(), std::io::Error>  {
     day_09::run()?;
 
     let duration = start.elapsed();
-    println!("{}",format!("  Timing : {:?}", duration).dimmed());
+    println!("{}", format!("  Timing : {:?}", duration).dimmed());
 
     Ok(())
 }
