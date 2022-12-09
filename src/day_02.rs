@@ -58,8 +58,7 @@ pub fn run() -> Result<(), std::io::Error> {
 
 fn parse_input(input: &str) -> Data {
     input
-        .split("\n")
-        .filter(|v| !v.is_empty())
+        .lines()
         .map(|round| (round.as_bytes()[0], round.as_bytes()[2]))
         .collect()
 }

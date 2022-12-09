@@ -10,13 +10,7 @@ pub fn run() -> Result<(), std::io::Error> {
 fn parse_input(input: &str) -> Data {
     input
         .split("\n\n")
-        .map(|elf| {
-            elf.trim()
-                .split("\n")
-                .map(str::parse)
-                .filter_map(Result::ok)
-                .collect()
-        })
+        .map(|elf| elf.lines().map(str::parse).filter_map(Result::ok).collect())
         .collect()
 }
 

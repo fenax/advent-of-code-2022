@@ -10,8 +10,7 @@ pub fn run() -> Result<(), std::io::Error> {
 
 fn parse_input(input: &str) -> Data {
     input
-        .split("\n")
-        .filter(|&x| !x.is_empty())
+        .lines()
         .map(str::as_bytes)
         .map(|x| {
             let len = x.len();
