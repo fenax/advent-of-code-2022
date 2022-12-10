@@ -61,5 +61,8 @@ fn print_part_2() {
 }
 
 fn print_result<T: std::fmt::Display>(result: &T) {
-    println!("     {}", result);
+    let str = result.to_string();
+    str.lines().for_each(|l| {
+        println!("     {}", l);
+    });
 }
