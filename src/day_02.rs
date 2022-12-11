@@ -52,8 +52,14 @@ pub const FILE: usize = 2;
 type Int = u64;
 type Data = Vec<(u8, u8)>;
 
-pub fn run() -> Result<(), std::io::Error> {
-    print_single_parse(FILE, parse_input, calculate_score, calculate_score_2)
+pub fn run(filename: Option<String>) -> Result<(), std::io::Error> {
+    print_single_parse(
+        FILE,
+        filename,
+        parse_input,
+        calculate_score,
+        calculate_score_2,
+    )
 }
 
 fn parse_input(input: &str) -> Data {

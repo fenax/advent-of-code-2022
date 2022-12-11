@@ -64,8 +64,8 @@ pub const FILE: usize = 7;
 type Int = usize;
 type Data = Item;
 
-pub fn run() -> Result<(), std::io::Error> {
-    print_single_parse(FILE, parse_input, part_1, part_2)
+pub fn run(filename: Option<String>) -> Result<(), std::io::Error> {
+    print_single_parse(FILE, filename, parse_input, part_1, part_2)
 }
 
 fn parse_input(input: &str) -> Data {

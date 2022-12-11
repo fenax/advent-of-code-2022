@@ -20,6 +20,7 @@ pub fn read_file(num: usize) -> String {
 
 pub fn print_single_parse<F, G, H, T, U, V>(
     num: usize,
+    filename: Option<String>,
     mut parser: F,
     mut part1: G,
     mut part2: H,
@@ -32,7 +33,11 @@ where
     V: std::fmt::Display,
 {
     print_header(num);
-    let file_data = read_to_string(format!("day_{:02}.input", num))?;
+    let file_data = read_to_string(if let Some(file) = filename {
+        file
+    } else {
+        format!("day_{:02}.input", num)
+    })?;
     print_parse();
     let data = timed_run(|| parser(&file_data));
     print_part_1();

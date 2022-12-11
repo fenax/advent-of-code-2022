@@ -12,3 +12,4 @@ itertools = "0.10"
 colored = "2"
 rayon = "1.6.0"
 gen-iter = "0.2.1"
+clap = { version = "4.0.29", features = ["derive"] }

@@ -3,8 +3,8 @@ use crate::formater::*;
 type Int = u64;
 type Data = Vec<Vec<Int>>;
 
-pub fn run() -> Result<(), std::io::Error> {
-    print_single_parse(1, parse_input, sum_per_elf, top_three_elves)
+pub fn run(filename: Option<String>) -> Result<(), std::io::Error> {
+    print_single_parse(1, filename, parse_input, sum_per_elf, top_three_elves)
 }
 
 fn parse_input(input: &str) -> Data {

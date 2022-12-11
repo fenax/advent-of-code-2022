@@ -32,8 +32,8 @@ struct Monkey {
     if_false: usize,
 }
 
-pub fn run() -> Result<(), std::io::Error> {
-    print_single_parse(FILE, parse_input, part_1, part_2)
+pub fn run(filename: Option<String>) -> Result<(), std::io::Error> {
+    print_single_parse(FILE, filename, parse_input, part_1, part_2)
 }
 
 //0000000000111111111122222222223333
@@ -85,8 +85,12 @@ fn parse_input(input: &str) -> Data {
 fn part_1(data: &Data) -> Int {
     let mut data = data.clone();
     let len = data.len();
-    for _ in 0..20 {
+    for _x in 0..20 {
         //rounds
+        /*println!("ROUND {}", _x);
+        for (i, x) in data.iter().enumerate() {
+            println!("Monkey {} : {:?}", i, x.items);
+        }*/
         for m in 0..len {
             let transfer = data[m]
                 .items
