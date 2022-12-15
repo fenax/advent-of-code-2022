@@ -20,6 +20,7 @@ mod day_09;
 mod day_10;
 mod day_11;
 mod day_12;
+mod day_13;
 
 /// Program to run Advent Of Code 2022
 #[derive(Parser, Debug)]
