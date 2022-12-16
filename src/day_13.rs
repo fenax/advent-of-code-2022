@@ -2,11 +2,11 @@ use itertools::Itertools;
 
 use crate::formater::*;
 
-pub const FILE: usize = 1;
+pub const FILE: usize = 13;
 type Int = u64;
 type Data = Vec<(Thing, Thing)>;
 
-#[derive(PartialEq, Clone, Debug)]
+#[derive(PartialEq, Eq, Clone, Debug, Ord)]
 enum Thing {
     List(Vec<Thing>),
     Int(Int),
@@ -16,8 +16,8 @@ impl PartialOrd for Thing {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         match (self, other) {
             (Thing::Int(s), Thing::Int(o)) => s.partial_cmp(o),
-            (Thing::List(s), Thing::Int(o)) => self.partial_cmp(&Thing::List(vec![other.clone()])),
-            (Thing::Int(s), Thing::List(o)) => Thing::List(vec![self.clone()]).partial_cmp(other),
+            (Thing::List(_), Thing::Int(_)) => self.partial_cmp(&Thing::List(vec![other.clone()])),
+            (Thing::Int(_), Thing::List(_)) => Thing::List(vec![self.clone()]).partial_cmp(other),
             (Thing::List(s), Thing::List(o)) => s.partial_cmp(o),
         }
     }
@@ -39,7 +39,7 @@ fn parse_iterator_list<'a, 'b>(input: &'a mut impl Iterator<Item = u8>) -> Thing
             Some(b']') => {
                 if let Some(int) = intpart {
                     list.push(Thing::Int(int));
-                    intpart = None;
+                    //intpart = None; breaking
                 }
                 break;
             }
@@ -55,8 +55,7 @@ fn parse_iterator_list<'a, 'b>(input: &'a mut impl Iterator<Item = u8>) -> Thing
             }
             Some(_) => panic!("invalid symbol"),
             None => {
-                println!("error ?");
-                break;
+                return list.first().unwrap_or(&Thing::List(Vec::new())).clone();
             }
         }
     }
@@ -66,23 +65,45 @@ fn parse_iterator_list<'a, 'b>(input: &'a mut impl Iterator<Item = u8>) -> Thing
 fn parse_input(input: &str) -> Data {
     input
         .split("\n\n")
-        .map(|group| {
+        .filter_map(|group| {
             group
                 .lines()
                 .map(|s| parse_iterator_list(&mut s.bytes()))
                 .collect_tuple()
-                .unwrap()
         })
         .collect_vec()
 }
 
 fn part_1(data: &Data) -> Int {
-    println!("{:?}", data);
-    data.iter().filter(|(left, right)| left < right).count() as Int
+    data.iter()
+        .enumerate()
+        .filter_map(|(i, (left, right))| {
+            if left < right {
+                Some(i as Int + 1)
+            } else {
+                None
+            }
+        })
+        .sum()
 }
 
 fn part_2(data: &Data) -> Int {
-    0
+    let mut list: Vec<&Thing> = data.iter().map(|(a, b)| [a, b]).flatten().collect();
+    let a = Thing::List(vec![Thing::List(vec![Thing::Int(2)])]);
+    let b = Thing::List(vec![Thing::List(vec![Thing::Int(6)])]);
+    list.push(&a);
+    list.push(&b);
+    list.sort();
+    list.iter()
+        .enumerate()
+        .filter_map(|(i, thing)| {
+            if *thing == &a || *thing == &b {
+                Some(i as Int + 1)
+            } else {
+                None
+            }
+        })
+        .product()
 }
 
 #[cfg(test)]
@@ -119,12 +140,12 @@ mod tests {
     fn test_example() {
         let exemple = parse_input(EXEMPLE_1);
         assert_eq!(part_1(&exemple), 13);
-        assert_eq!(part_2(&exemple), 0);
+        assert_eq!(part_2(&exemple), 140);
     }
     #[test]
     fn test() {
         let data = parse_input(&read_file(FILE));
-        assert_eq!(part_1(&data).to_string(), format!("{}", 0));
-        assert_eq!(part_2(&data).to_string(), format!("{}", 0));
+        assert_eq!(part_1(&data).to_string(), format!("{}", 6240));
+        assert_eq!(part_2(&data).to_string(), format!("{}", 23142));
     }
 }

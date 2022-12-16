@@ -52,6 +52,7 @@ fn main() -> Result<(), std::io::Error> {
         Some(10) => day_10::run(args.file)?,
         Some(11) => day_11::run(args.file)?,
         Some(12) => day_12::run(args.file)?,
+        Some(13) => day_13::run(args.file)?,
 
         Some(_) => {
             println!("Invalid day");
@@ -70,6 +71,7 @@ fn main() -> Result<(), std::io::Error> {
             day_10::run(None)?;
             day_11::run(None)?;
             day_12::run(None)?;
+            day_13::run(None)?;
         }
     }
 
