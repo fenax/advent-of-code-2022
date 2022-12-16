@@ -19,6 +19,8 @@ mod day_08;
 mod day_09;
 mod day_10;
 mod day_11;
+mod day_12;
+mod day_13;
 
 /// Program to run Advent Of Code 2022
 #[derive(Parser, Debug)]
@@ -49,6 +51,7 @@ fn main() -> Result<(), std::io::Error> {
         Some(09) => day_09::run(args.file)?,
         Some(10) => day_10::run(args.file)?,
         Some(11) => day_11::run(args.file)?,
+        Some(12) => day_12::run(args.file)?,
 
         Some(_) => {
             println!("Invalid day");
@@ -66,6 +69,7 @@ fn main() -> Result<(), std::io::Error> {
             day_09::run(None)?;
             day_10::run(None)?;
             day_11::run(None)?;
+            day_12::run(None)?;
         }
     }
 
